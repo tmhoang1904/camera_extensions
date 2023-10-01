@@ -194,10 +194,11 @@
       [result sendSuccess];
     } else if ([@"startVideoRecording" isEqualToString:call.method]) {
       BOOL enableStream = [call.arguments[@"enableStream"] boolValue];
+      NSString *outputPath = [NSString stringWithFormat:@"%@", call.arguments[@"outputPath"]];
       if (enableStream) {
-        [_camera startVideoRecordingWithResult:result messengerForStreaming:_messenger];
+        [_camera startVideoRecordingWithResult:result outputPath:outputPath messengerForStreaming:_messenger];
       } else {
-        [_camera startVideoRecordingWithResult:result];
+        [_camera startVideoRecordingWithResult:result outputPath:outputPath];
       }
     } else if ([@"stopVideoRecording" isEqualToString:call.method]) {
       [_camera stopVideoRecordingWithResult:result];

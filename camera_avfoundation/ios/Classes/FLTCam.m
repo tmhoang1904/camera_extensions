@@ -658,11 +658,13 @@ NSString *const errorMethod = @"error";
   return pixelBuffer;
 }
 
-- (void)startVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result {
-  [self startVideoRecordingWithResult:result messengerForStreaming:nil];
+- (void)startVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result 
+                outputPath: (nullable NSString *)outputPath {
+  [self startVideoRecordingWithResult:result outputPath:outputPath messengerForStreaming:nil];
 }
 
 - (void)startVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result
+                outputPath: (nullable NSString *)outputPath
                 messengerForStreaming:(nullable NSObject<FlutterBinaryMessenger> *)messenger {
   if (!_isRecording) {
     if (messenger != nil) {
@@ -670,10 +672,14 @@ NSString *const errorMethod = @"error";
     }
 
     NSError *error;
-    _videoRecordingPath = [self getTemporaryFilePathWithExtension:@"mp4"
-                                                        subfolder:@"videos"
-                                                           prefix:@"REC_"
-                                                            error:error];
+    if (outputPath != nil) {
+      _videoRecordingPath = outputPath;
+    } else {
+      _videoRecordingPath = [self getTemporaryFilePathWithExtension:@"mp4"
+                                                          subfolder:@"videos"
+                                                            prefix:@"REC_"
+                                                              error:error];
+    }
     if (error) {
       [result sendError:error];
       return;

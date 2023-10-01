@@ -20,10 +20,9 @@ packages:
   camera_platform_interface:
     dependency: "direct main"
     description:
-      name: camera_platform_interface
-      sha256: "8734d1c682f034bdb12d0d6ff379b0535a9b8e44266b530025bf8266d6a62f28"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../camera_platform_interface"
+      relative: true
+    source: path
     version: "2.5.2"
   characters:
     dependency: transitive

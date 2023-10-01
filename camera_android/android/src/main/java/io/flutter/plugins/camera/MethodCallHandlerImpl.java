@@ -121,7 +121,9 @@ final class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
         {
           camera.startVideoRecording(
               result,
-              Objects.equals(call.argument("enableStream"), true) ? imageStreamChannel : null);
+              Objects.equals(call.argument("enableStream"), true) ? imageStreamChannel : null,
+              call.argument("outputPath")
+              );
           break;
         }
       case "stopVideoRecording":

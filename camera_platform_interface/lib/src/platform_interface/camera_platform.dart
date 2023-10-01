@@ -133,7 +133,11 @@ abstract class CameraPlatform extends PlatformInterface {
   /// through the [onVideoRecordedEvent] stream when the set duration is reached.
   ///
   /// This method is deprecated in favour of [startVideoCapturing].
-  Future<void> startVideoRecording(int cameraId, {Duration? maxVideoDuration}) {
+  Future<void> startVideoRecording(
+    int cameraId, {
+    Duration? maxVideoDuration,
+    String? outputPath,
+  }) {
     throw UnimplementedError('startVideoRecording() is not implemented.');
   }
 
@@ -142,8 +146,11 @@ abstract class CameraPlatform extends PlatformInterface {
   /// Please see [VideoCaptureOptions] for documentation on the
   /// configuration options.
   Future<void> startVideoCapturing(VideoCaptureOptions options) {
-    return startVideoRecording(options.cameraId,
-        maxVideoDuration: options.maxDuration);
+    return startVideoRecording(
+      options.cameraId,
+      maxVideoDuration: options.maxDuration,
+      outputPath: options.outputPath,
+    );
   }
 
   /// Stops the video recording and returns the file where it was saved.

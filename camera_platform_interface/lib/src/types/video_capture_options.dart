@@ -15,6 +15,7 @@ class VideoCaptureOptions {
     this.maxDuration,
     this.streamCallback,
     this.streamOptions,
+    this.outputPath,
   }) : assert(
           streamOptions == null || streamCallback != null,
           'Must specify streamCallback if providing streamOptions.',
@@ -39,6 +40,8 @@ class VideoCaptureOptions {
   /// Should only be set if a streamCallback is also present.
   final CameraImageStreamOptions? streamOptions;
 
+  final String? outputPath;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -47,9 +50,10 @@ class VideoCaptureOptions {
           cameraId == other.cameraId &&
           maxDuration == other.maxDuration &&
           streamCallback == other.streamCallback &&
-          streamOptions == other.streamOptions;
+          streamOptions == other.streamOptions &&
+          outputPath == other.outputPath;
 
   @override
-  int get hashCode =>
-      Object.hash(cameraId, maxDuration, streamCallback, streamOptions);
+  int get hashCode => Object.hash(
+      cameraId, maxDuration, streamCallback, streamOptions, outputPath);
 }

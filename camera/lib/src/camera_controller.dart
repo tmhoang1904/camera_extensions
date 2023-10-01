@@ -520,8 +520,10 @@ class CameraController extends ValueNotifier<CameraValue> {
   ///
   /// The video is returned as a [XFile] after calling [stopVideoRecording].
   /// Throws a [CameraException] if the capture fails.
-  Future<void> startVideoRecording(
-      {onLatestImageAvailable? onAvailable}) async {
+  Future<void> startVideoRecording({
+    onLatestImageAvailable? onAvailable,
+    String? outputPath,
+  }) async {
     _throwIfNotInitialized('startVideoRecording');
     if (value.isRecordingVideo) {
       throw CameraException(
@@ -538,8 +540,11 @@ class CameraController extends ValueNotifier<CameraValue> {
     }
 
     try {
-      await CameraPlatform.instance.startVideoCapturing(
-          VideoCaptureOptions(_cameraId, streamCallback: streamCallback));
+      await CameraPlatform.instance.startVideoCapturing(VideoCaptureOptions(
+        _cameraId,
+        streamCallback: streamCallback,
+        outputPath: outputPath,
+      ));
       value = value.copyWith(
           isRecordingVideo: true,
           isRecordingPaused: false,

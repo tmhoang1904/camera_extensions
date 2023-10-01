@@ -4,11 +4,13 @@
 
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// The state of a [CameraController].
 class CameraValue {
@@ -328,8 +330,25 @@ class CameraController extends ValueNotifier<CameraValue> {
   /// Throws a [CameraException] if the capture fails.
   Future<void> startVideoRecording(
       {Function(CameraImageData image)? streamCallback}) async {
-    await CameraPlatform.instance.startVideoCapturing(
-        VideoCaptureOptions(_cameraId, streamCallback: streamCallback));
+    var dir = await getExternalStorageDirectory();
+    if (dir == null) {
+      dir = await getApplicationDocumentsDirectory();
+    }
+    const testFolder = 'test_folder';
+    final appFolder = '${dir.path}/$testFolder';
+    final appDir = Directory(appFolder);
+    if (!appDir.existsSync()) {
+      appDir.createSync();
+    }
+    final now = DateTime.now();
+    final filename = 'test_video_${now.millisecondsSinceEpoch}.mp4';
+    final outputPath = '${appDir.path}/$filename';
+    debugPrint('save output path: $outputPath');
+    await CameraPlatform.instance.startVideoCapturing(VideoCaptureOptions(
+      _cameraId,
+      streamCallback: streamCallback,
+      outputPath: outputPath,
+    ));
     value = value.copyWith(
         isRecordingVideo: true,
         isRecordingPaused: false,

@@ -49,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDeviceOrientation:(UIDeviceOrientation)orientation;
 - (void)captureToFile:(FLTThreadSafeFlutterResult *)result;
 - (void)close;
-- (void)startVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result;
+- (void)startVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result
+                        outputPath: (nullable NSString *)outputPath;
 /**
  * Starts recording a video with an optional streaming messenger.
  * If the messenger is non-null then it will be called for each
@@ -58,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param messenger Nullable messenger for capturing each frame.
  */
 - (void)startVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result
+                outputPath: (nullable NSString *)outputPath
                 messengerForStreaming:(nullable NSObject<FlutterBinaryMessenger> *)messenger;
 - (void)stopVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result;
 - (void)pauseVideoRecordingWithResult:(FLTThreadSafeFlutterResult *)result;

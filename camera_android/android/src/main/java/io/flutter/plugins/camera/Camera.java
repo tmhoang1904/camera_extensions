@@ -759,8 +759,8 @@ class Camera
   }
 
   public void startVideoRecording(
-      @NonNull Result result, @Nullable EventChannel imageStreamChannel) {
-    prepareRecording(result);
+      @NonNull Result result, @Nullable EventChannel imageStreamChannel, @Nullable String outputPath) {
+    prepareRecording(result, outputPath);
 
     if (imageStreamChannel != null) {
       setStreamHandler(imageStreamChannel);
@@ -1172,10 +1172,14 @@ class Camera
   }
 
   @VisibleForTesting
-  void prepareRecording(@NonNull Result result) {
+  void prepareRecording(@NonNull Result result, @Nullable String outputPath) {
     final File outputDir = applicationContext.getCacheDir();
     try {
-      captureFile = File.createTempFile("REC", ".mp4", outputDir);
+      if (outputPath != null) {
+        captureFile = new File(outputPath);
+      } else {
+        captureFile = File.createTempFile("REC", ".mp4", outputDir);
+      }
     } catch (IOException | SecurityException e) {
       result.error("cannotCreateFile", e.getMessage(), null);
       return;
