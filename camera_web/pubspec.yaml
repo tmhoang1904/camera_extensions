@@ -20,7 +20,10 @@ flutter:
 dependencies:
   # camera_platform_interface: ^2.3.1
   camera_platform_interface: 
-    path: ../camera_platform_interface
+    git:
+      url: https://github.com/tmhoang1904/camera_extensions.git
+      ref: master
+      path: camera_platform_interface
   flutter:
     sdk: flutter
   flutter_web_plugins:
